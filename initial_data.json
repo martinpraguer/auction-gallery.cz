@@ -1,0 +1,136 @@
+[
+{
+  "model": "auth.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$KdvwIcvYW6AdMqOGUgoeI3$OEEbjWvp6zFcdjojFZdw+tLIM3tBzK6pCJE/nnrGqmE=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "superuser",
+    "first_name": "",
+    "last_name": "",
+    "email": "superuser@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-04-02T03:19:44.503Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$mYB8h601KelxUQmu7Jnnct$TfTHpqYJ6Io/zBbHf7UI7H7HmWoG61UlzawS3qalO4o=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "1234",
+    "first_name": "",
+    "last_name": "",
+    "email": "1234@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-04-02T03:19:44.809Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$f5u2mw3o27CgevDgoRP4n7$NeojYu1KkmOQKvhllM0lw8wMEY2FjsJ6J34USgv/mwQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "premiumuser",
+    "first_name": "",
+    "last_name": "",
+    "email": "premium@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-04-02T03:19:45.128Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "auth.user",
+  "pk": 4,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$AErft1NeiAmefWzjVLaqso$7MAOMcgd906erk/huLWFEK4akQMbMkhYay60MdKRRKw=",
+    "last_login": null,
+    "is_superuser": false,
+    "username": "ordinaryuser",
+    "first_name": "",
+    "last_name": "",
+    "email": "ordinary@example.com",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-02T03:19:45.431Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "viewer.accounttype",
+  "pk": 1,
+  "fields": {
+    "account_type": "User"
+  }
+},
+{
+  "model": "viewer.accounttype",
+  "pk": 2,
+  "fields": {
+    "account_type": "Premium"
+  }
+},
+{
+  "model": "viewer.useraccounts",
+  "pk": 1,
+  "fields": {
+    "user": 1,
+    "account_type": 2,
+    "created_at": "2025-04-02T03:19:44.804Z",
+    "is_premium": false,
+    "premium_expiry_date": null,
+    "purchase_count": 0
+  }
+},
+{
+  "model": "viewer.useraccounts",
+  "pk": 2,
+  "fields": {
+    "user": 2,
+    "account_type": 2,
+    "created_at": "2025-04-02T03:19:45.123Z",
+    "is_premium": false,
+    "premium_expiry_date": null,
+    "purchase_count": 0
+  }
+},
+{
+  "model": "viewer.useraccounts",
+  "pk": 3,
+  "fields": {
+    "user": 3,
+    "account_type": 2,
+    "created_at": "2025-04-02T03:19:45.427Z",
+    "is_premium": false,
+    "premium_expiry_date": null,
+    "purchase_count": 0
+  }
+},
+{
+  "model": "viewer.useraccounts",
+  "pk": 4,
+  "fields": {
+    "user": 4,
+    "account_type": 1,
+    "created_at": "2025-04-02T03:19:45.717Z",
+    "is_premium": false,
+    "premium_expiry_date": null,
+    "purchase_count": 0
+  }
+}
+]

@@ -1,0 +1,217 @@
+{#{% extends 'base.html' %}#}
+
+{% load static %}
+
+<html {% if LANGUAGE_CODE %}lang="{{ LANGUAGE_CODE }}" {% endif %}>
+<link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+<head>
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Auction gallery</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="Our Works, ​We love to do, Recent Works, ​Creativity with the power to transform">
+    <meta name="description" content="">
+    <title>Aukční galerie</title>
+    <link rel="stylesheet" href="{% static 'nicepage.css' %}" media="screen">
+    <link rel="stylesheet" href="{% static 'index.css' %}" media="screen">
+    <script class="u-script" type="text/javascript" src="{% static 'jquery.js' %}" defer=""></script>
+    <script class="u-script" type="text/javascript" src="{% static 'nicepage.js' %}" defer=""></script>
+    <meta name="generator" content="Nicepage 6.18.5, nicepage.com">
+    <meta name="referrer" content="origin">
+    <link id="u-theme-google-font" rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <script type="application/ld+json">
+        {
+            "@context": "http://schema.org",
+            "@type": "Organization",
+            "name": "",
+            "logo": "{% static 'Auction gallery -ořez.gif' %}"
+}
+    </script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Home">
+    <meta property="og:type" content="website">
+    <meta data-intl-tel-input-cdn-path="intlTelInput/">
+</head>
+
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark " style="background-color: #fff8f2;">
+    {#    <a class="container">#}
+    <a href="{% url 'index' %}" style="max-width: 200px; height: auto;">
+        <img src={% static "Auction gallery -ořez.gif" %} class="u-logo-image u-logo-image-1" style="max-width: 200px;
+        height: auto;">
+    </a>
+    <a class="navbar-brand" href="/"></a>
+
+    <!-- Přidání vyhledávacího pole mimo kolabovatelnou část -->
+    <form class="form-inline my-2 my-lg-0 mr-auto" action="/detailed_search/" method="GET">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+
+    <style>
+
+
+        .auction-categories a {
+            text-decoration: none; /* Odstraní podtržení z odkazů */
+            color: white; /* Můžeš upravit barvu odkazů, případně přizpůsobit pozadí */
+        }
+
+        .auction-categories a:hover {
+            text-decoration: underline;
+            color: black; /* Zvýrazní odkaz při najetí myší */
+        }
+
+        .navbar-toggler {
+            border-color: black; /* Změní barvu rámečku kolem hamburger ikony */
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='black' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+            /* Změní čárky na ikonu na černou barvu */
+        }
+
+        .icon {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
+
+        .login {
+            background-image: url('https://galerieumeni.cz/www/images/login.png');
+            filter: brightness(0) saturate(100%) invert(0) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+        }
+
+        .registration {
+            background-image: url('https://galerieumeni.cz/www/images/reg.png');
+            filter: brightness(0) saturate(100%) invert(0) sepia(100%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%);
+        }
+    </style>
+    <button
+            class="navbar-toggler" type="button"
+            data-toggle="collapse" data-target="#navbarNavAltMarkup"
+            style="border-color: black;"
+    >
+        <span class="navbar-toggler-icon"
+              style="background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox=%270 0 30 30%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cpath stroke=%27%23000%27 stroke-width=%272%27 stroke-linecap=%27round%27 stroke-miterlimit=%2710%27 d=%27M4 7h22M4 15h22M4 23h22%27/%3E%3C/svg%3E');"></span>
+    </button>
+
+    {% include 'navbar.html' %}
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav ml-auto">
+            <a class="nav-item nav-link active" href="{% url 'index' %}" style="color: black;">
+                Home
+            </a>
+            <a class="nav-item nav-link" href="{% url 'current_auctions' %}" style="color: black;">
+                Current auctions
+            </a>
+            <a class="nav-item nav-link" href="{% url 'auction_archives' %}" style="color: black;">
+                Auction archives</a>
+            <a class="nav-item nav-link" href="{% url 'add_auction_create' %}" style="color: black;">
+                Add auction
+            </a>
+            <a class="nav-item nav-link" href="{% url 'last_auction' %}" style="color: black;">
+                Last auction
+            </a>
+            {% if user.is_authenticated and user.useraccounts.account_type.account_type == 'Premium' %}
+                </a>
+                <a class="nav-item nav-link" href="{% url 'list_users' %}" style="color: black;">
+                Users
+            {% endif %}
+            <a class="nav-item nav-link" href="{% url 'about_us' %}" style="color: black;">
+                About us
+            </a>
+            <a href="{% url 'cart_view' %}" class="">
+                {{ cart_count }}
+                <img alt="" src="{% static 'cart.png' %}" width="30" height="auto"
+                     class="u-image u-image-default u-image-3">
+            </a>
+
+        </div>
+    </div>
+    </div>
+</nav>
+
+
+
+<nav class="u-menu u-menu-dropdown u-offcanvas u-menu-1">
+    <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px;">
+        <a class="u-button-style u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base"
+           href="#">
+            <svg class="u-svg-link" viewBox="0 0 24 24">
+                <use xlink:href="#menu-hamburger"></use>
+            </svg>
+            <svg class="u-svg-content" version="1.1" id="menu-hamburger" viewBox="0 0 16 16" x="0px" y="0px"
+                 xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                    <rect y="1" width="16" height="2"></rect>
+                    <rect y="7" width="16" height="2"></rect>
+                    <rect y="13" width="16" height="2"></rect>
+                </g>
+            </svg>
+        </a>
+    </div>
+    </div>
+    <div class="u-nav-container-collapse">
+        <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
+            <div class="u-inner-container-layout u-sidenav-overflow">
+                <div class="u-menu-close"></div>
+                <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
+                    <li class="u-nav-item"><a class="u-button-style u-nav-link" href="./">Home</a>
+                    </li>
+                    <li class="u-nav-item"><a class="u-button-style u-nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="u-nav-item"><a class="u-button-style u-nav-link" href="Contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+    </div>
+</nav>
+</div></header>
+<section class="u-align-center u-clearfix u-container-align-center u-palette-1-base u-section-1" src=""
+         id="carousel_ef82">
+    <div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <h1 class="u-align-center u-text u-text-default u-title u-text-1">Auction gallery</h1>
+        <p class="auction-categories"><a href="{% url 'paintings' %}"> Paintings </a> <a href="{% url 'statues' %}">
+            Statues </a> <a href="{% url 'numismatics' %}"> Numismatics </a> <a href="{% url 'jewelry' %}"> Jewelry </a>
+        </p>
+    </div>
+</section>
+
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+
+
+<section class="u-backlink u-clearfix u-grey-80">
+    <p class="u-text">
+        <span>Final project of SDA academy.</span><br>
+        <span>This project was created by - Andrej Schön, Ondřej Vitásek, Martin Praguer.</span><br>
+        <span>© 2024 SDA group. All rights reserved.</pn>
+
+
+            </a>
+      </span>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+{% load my_filters %}
+{% block content %}
+
+<h1>Přidat hodnocení jako {{ user_role }}</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Odeslat hodnocení</button>
+</form>
+
+<a href="{% url 'auction_detail' auction.id %}">Zpět na aukci</a>
+
+{% endblock %}

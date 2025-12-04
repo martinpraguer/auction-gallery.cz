@@ -1,0 +1,232 @@
+{% extends "base.html" %}
+{% load static %}
+{% load my_filters %}
+{% block content %}
+
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 1.2em; /* Zvětšení velikosti písma */
+    }
+
+    th, td {
+        padding: 15px; /* Větší mezery mezi buňkami */
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+    }
+
+    tr:hover {
+        background-color: #f9f9f9; /* Změna barvy při najetí na řádek */
+    }
+</style>
+
+
+<!-- Zobrazení obrázků pro danou aukci -->
+{% if auction.images.all %}
+    <h3>Images:</h3>
+    <div>
+        {% for image in auction.images.all %}
+            <a href="{{ image.image.url }}" data-lightbox="auction-images"><img src="{{ image.image.url }}" alt="Image for {{ auction.name_auction }}" style="width: 300px; height: auto;"></a>
+        {% endfor %}
+    </div>
+{% else %}
+    <p>No images for this auction.</p>
+{% endif %}
+<h2>{{ auction.name_auction }}</h2>
+<p>Category: {{ auction.category }}</p>
+<p>Description: {{ auction.description }}</p>
+
+<!-- Odkaz na detail uživatele, který vytvořil aukci -->
+<p>Auction Creater: <a href="{% url 'user_detail' auction.user_creator.id %}">{{ auction.user_creator }}</a></p>
+
+
+{% if auction.is_sold %}
+    <p>Auction buyer: <a href="{% url 'user_detail' auction.name_buyer.id %}">{{ auction.name_buyer }}</a></p>
+{% elif auction.name_bider %}
+    <p>Last bidder: <a href="{% url 'user_detail' auction.name_bider.id %}">{{ auction.name_bider }}</a></p>
+    {% else %}
+    <p>No buyer or bidders yet.</p>
+{% endif %}
+    
+<p>Auction Starts: {{ auction.auction_start_date|date:"d.m.Y H:i:s" }}</p>
+<p>Auction Ends: {{ auction.auction_end_date|date:"d.m.Y H:i:s" }}</p>
+<p>Numbers of Views: {{ auction.number_of_views }}</p>
+{% if auction_expired %}
+    <p>Auction has expired</p>
+{% else %}
+    <p>Time Left: {{ days }} days, {{ hours }} hours, {{ minutes }} minutes</p>
+{% endif %}
+
+{% if auction.auction_type == 'buy_now' %}
+    <p>Price: {{ auction.buy_now_price|price_format }} Kč</p>
+    <h3>Buy Now</h3>
+
+    {% if auction_expired %}
+        <p style="color: red;">This auction has already expired. It cannot be bought.</p>
+    {% else %}
+        <form method="post" action="{% url 'add_to_cart' auction.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-primary">Add to Cart</button>
+        </form>
+    {% endif %}
+{% endif %}
+
+{% if auction.auction_type == 'place_bid' %}
+    <p>Starting Price: {{ auction.start_price|price_format }} Kč</p>
+    {% if auction.price %}
+        <p>Price: <span id="current_price">{{ auction.price|price_format }}</span> Kč</p>
+    {% endif %}
+    <p>Minimum Bid: {{ auction.minimum_bid|price_format }} Kč</p>
+
+    {% if auction_expired %}
+        <p style="color: red;">The auction has already ended. It is not possible to add more bids.</p>
+    {% else %}
+        {% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
+        {% endif %}
+<form method="post" id="bid-form">
+    {% csrf_token %}
+    <label for="new_bid">Your Bid:</label>
+    <input type="number" id="new_bid" name="new_bid" min="1" required>
+
+    <!-- Tlačítko Place Bid -->
+    <button type="submit" class="btn btn-primary" id="place-bid-btn">Place Bid</button>
+</form>  
+        
+        <!-- Dynamické zobrazení nové celkové ceny -->
+<p>New Final Price: <span id="final_price">{{ auction.price|default:auction.start_price }}</span> Kč</p>
+    {% endif %}
+    
+    <h2>Bids</h2>
+    {% if bids %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Price</th>
+                    <th>Bid</th>
+                    <th>Time</th>
+                    <th>User</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for bid in bids %}
+                <tr>
+                    <td>{{ bid.price|price_format }}</td>
+                    <td>{{ bid.amount|price_format }} Kč</td>
+                    <td>{{ bid.timestamp|date:"d.m.Y H:i:s" }}</td>
+                    <!-- Odkaz na detail uživatele, který přihodil -->
+                    <td><a href="{% url 'user_detail' bid.user.id %}">{{ bid.user }}</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bids yet.</p>
+    {% endif %}
+{% endif %}
+<br>
+    <br>
+    <br>
+    
+<h2>Rating for this auction</h2>
+
+{% if auction.evaluations.exists %}
+    <h3>Seller rating</h3>
+    <p>Seller: {{ auction.evaluations.first.seller.username }}</p>
+    <p>Evaluation: {{ auction.evaluations.first.seller_rating }} hvězdiček</p>
+    <p>Comment: {{ auction.evaluations.first.seller_comment }}</p>
+    
+    <h3>Buyer rating</h3>
+    <p>Buyer: {{ auction.evaluations.first.buyer.username }}</p>
+    <p>Evaluations: {{ auction.evaluations.first.buyer_rating }} hvězdiček</p>
+    <p>Comment: {{ auction.evaluations.first.buyer_comment }}</p>
+{% else %}
+    <p>No ratings have been added yet.</p>
+{% endif %}    
+{% if can_add_evaluation and user_type %}
+    <a href="{% url 'add_evaluation' auction.id user_type %}">
+        <button type="submit" class="btn btn-primary">Add rating</button>
+    </a>
+{% else %}
+    <button type="submit" class="btn btn-primary" disabled>You cannot add a rating</button>
+{% endif %}   
+    <br>
+    <br>
+    
+<a href="javascript:history.back()" style="text-decoration: none; color: inherit;"><button type="submit" class="btn btn-primary">Back to Previous Page</button></a>
+
+    
+  
+
+<!-- Skript pro posun na tlačítko po odeslání formuláře -->
+<script>
+    // Uložit pozici při kliknutí na tlačítko Place Bid
+    document.addEventListener('DOMContentLoaded', function () {
+        const bidButton = document.querySelector('#place-bid-btn'); // Odkaz na tlačítko
+
+        if (bidButton) {
+            bidButton.addEventListener('click', function () {
+                // Uložit aktuální scroll pozici do localStorage před odesláním formuláře
+                localStorage.setItem('scrollPosition', window.scrollY);
+            });
+        }
+
+        // Obnovit pozici při načtení stránky
+        const scrollPosition = localStorage.getItem('scrollPosition');
+        if (scrollPosition) {
+            window.scrollTo(0, scrollPosition);
+            // Odstranit uloženou pozici, aby se nepoužila při dalších změnách stránek
+            localStorage.removeItem('scrollPosition');
+        }
+    });
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const finalPriceDisplay = document.getElementById('final_price');
+    const bidInput = document.getElementById('new_bid');
+
+    // Převést textové číslo na číslo (odstraní mezery a nahradí čárku tečkou pro korektní parsing)
+    let currentPrice = parseFloat(finalPriceDisplay.textContent.replace(/\s/g, '').replace(',', '.'));
+
+    // Funkce pro formátování ceny
+    function formatPrice(price) {
+        // Zajistí přesnost na dvě desetinná místa a poté zaokrouhlí na celé číslo
+        const exactPrice = Math.round((price + Number.EPSILON) * 100) / 100;
+        const roundedPrice = Math.round(exactPrice); // Zaokrouhlíme na celé číslo
+        // Formátování pro české ceny s tečkou jako oddělovačem tisíců
+        return roundedPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+
+    // Nastavit na stránce formátovanou cenu hned po načtení
+    finalPriceDisplay.textContent = formatPrice(currentPrice);
+
+    // Při zadávání nového příhozu (bidu) aktualizovat cenu
+    if (bidInput) {
+        bidInput.addEventListener('input', function(event) {
+            const bidValue = parseFloat(event.target.value);
+
+            // Pokud je vstup prázdný, vrátí se původní cena
+            if (event.target.value === '') {
+                finalPriceDisplay.textContent = formatPrice(currentPrice);
+            } else if (!isNaN(bidValue)) {
+                // Vypočítat novou cenu a zajistit přesnost
+                const newPrice = currentPrice + bidValue;
+                // Zobrazit nově formátovanou cenu
+                finalPriceDisplay.textContent = formatPrice(newPrice);
+            }
+        });
+    }
+});
+</script>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+
+{% endblock %}

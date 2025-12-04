@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+    <h1>Search Results</h1>
+    {% if searchs %}
+        <ul>
+            {% for ad in searchs %}
+                <li>
+                     {% if ad.photo %}
+                        <img src="{{ ad.photo.url }}" alt="{{ ad.name }}" style="max-width: 200px;">
+                    {% endif %}<br>
+                    <strong>{{ ad.name_auction }}</strong><br>
+                    Category: {{ ad.category }}<br>
+                    Description: {{ ad.description }}<br>
+                    Auction creator: {{ ad.user_creator }}<br>
+                    {% if ad.name_buyer %}
+                    Auction buyer: {{ ad.name_buyer }}<br>
+                    {% endif %}</br><br>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found for your search.</p>
+    {% endif %}
+{% endblock %}
