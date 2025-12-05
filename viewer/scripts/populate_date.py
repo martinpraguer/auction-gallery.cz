@@ -6,13 +6,14 @@ import random
 import os
 from django.core.files import File
 from viewer.models import BuyerEvaluation, SellerEvaluation
+from django.conf import settings
 
-# Cesty k fotografiím
-PHOTO_DIR = 'media/photos/'
+# Cesty k fotografiím – podle MEDIA_ROOT (funguje i v Dockeru)
+PHOTO_DIR = os.path.join(settings.MEDIA_ROOT, 'photos')
 SAVE_DIR = 'photos_add_auction/'
 
 # Seznam souborů fotografií
-photos = [f for f in os.listdir(PHOTO_DIR) if f.endswith(('.jpg', '.gif', '.png'))]
+photos = [f for f in os.listdir(PHOTO_DIR) if f.lower().endswith(('.jpg', '.gif', '.png'))]
 
 
 # Funkce pro vytvoření kategorií
