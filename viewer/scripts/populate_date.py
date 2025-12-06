@@ -107,7 +107,10 @@ def create_default_users():
             user.set_password('1234')
             user.save()
         account_premium, _ = AccountType.objects.get_or_create(account_type='Premium')
-        UserAccounts.objects.create(user=user, account_type=account_premium, is_premium=True)
+        UserAccounts.objects.get_or_create(
+            user=user,
+            defaults={"account_type": account_premium, "is_premium": True},
+        )
         users.append(user)
 
     for username in user_nicks:
