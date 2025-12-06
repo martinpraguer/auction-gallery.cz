@@ -27,8 +27,8 @@ SECRET_KEY = 'django-insecure-d66msvck1rkc#jl-4#dj8l39lpyv9x23wk2d$2_fcf7%q0%*^@
 DEBUG = "True"
 # DEBUG = os.environ.get("DJANGO_DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = []
-# ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
+# ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS", "").split(",")
 
 CSRF_TRUSTED_ORIGINS = [
     'https://auction-gallery.cz',
