@@ -67,7 +67,7 @@ def reset_once() -> None:
 
 def main() -> None:
     # pokud chceš reset JEDNOU při startu containeru, nech jen:
-    # reset_once()
+    reset_once()
 
     # pokud chceš opakovat každý den, odkomentuj tento blok
     while True:
